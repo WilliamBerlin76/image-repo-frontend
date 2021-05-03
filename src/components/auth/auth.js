@@ -21,9 +21,10 @@ const Auth = ({ method, history }) => {
     const submitForm = e => {
         e.preventDefault();
         axios
-            .post(`${process.env.REACT_APP_BE_CONNECTION}/api/auth/${method}`, {...user})
+            .post(`${process.env.REACT_APP_BE_CONNECTION}/auth/${method}`, {...user})
             .then(res => {
                 localStorage.setItem('token', res.data.token);
+                localStorage.setItem('userId', res.data.user.id);
                 history.push('/dashboard');
             })
             .catch(err => {

@@ -1,0 +1,11 @@
+.imagesContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
+    .imageBox{
+        img{
+            max-width: 350px;
+        }
+    }   
+}
