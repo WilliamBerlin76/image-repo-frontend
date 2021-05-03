@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axiosWithAuth from '../../utils/axiosWithAuth';
 
 import dashboard from './dashboard.module.scss';
@@ -9,19 +9,17 @@ const Dashboard = () => {
 
     const [file, setFile] = useState(null);
     const [images, setImages] = useState([]);
-    const hasFetched = useRef(false);
 
-    const fetchImages = () => {
+    const fetchImages = useCallback(() => {
         axiosWithAuth()
             .get(`/images/${userId}/get-images`)
             .then(res => {
                 setImages(res.data.images);
-                
             })
             .catch(err => {
                 console.log(err);
             });
-    };
+    }, [userId])
 
     const sendImage = e => {
         e.preventDefault();
@@ -38,11 +36,8 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        if (!hasFetched.current){
-            fetchImages();
-            hasFetched.current = true;
-        }   
-    }, [images, userId]);
+        fetchImages();
+    }, [fetchImages]);
 
     return (
         <div>
@@ -59,7 +54,7 @@ const Dashboard = () => {
             <div className={dashboard.imagesContainer}>
                 {images.map(image => {
                     return (
-                        <div className={dashboard.imageBox}>
+                        <div className={dashboard.imageBox} key={image.id}>
                             <p>{image.name}</p>
                             <img src={`data:image/png;base64,${image.base64}`} alt={image.name}/>
                         </div>
