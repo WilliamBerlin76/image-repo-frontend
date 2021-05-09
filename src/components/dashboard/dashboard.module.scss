@@ -5,8 +5,16 @@
     margin: 0 auto;
     .imageBox{
         cursor: pointer;
+        padding: 15px;
+        margin: 10px;
+        border: 2px solid #2e2a2a;
+        border-radius: 10px;
         img{
-            max-width: 350px;
+            max-width: 325px;
         }
     }   
+}
+
+.selectedBackground{
+    background: #bbd86a;
 }
