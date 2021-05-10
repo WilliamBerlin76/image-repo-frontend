@@ -23,8 +23,9 @@ const Auth = ({ method, history }) => {
         axios
             .post(`${process.env.REACT_APP_BE_CONNECTION}/auth/${method}`, {...user})
             .then(res => {
+                console.log(res.data)
                 localStorage.setItem('token', res.data.token);
-                localStorage.setItem('userId', res.data.user.id);
+                res.data.newUser ? localStorage.setItem('userId', res.data.newUser.id) : localStorage.setItem('userId', res.data.user.id);
                 history.push('/dashboard');
             })
             .catch(err => {
