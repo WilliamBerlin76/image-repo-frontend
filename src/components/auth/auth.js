@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import auth from './auth.module.scss';
+import ReactLoading from "react-loading";
 
 import axios from 'axios';
 
 const Auth = ({ method, history }) => {
     const [user, setUser] = useState({});
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isFetching, setIsFetching] = useState(false);
 
     const handleChange = e => {
         setUser({
@@ -19,6 +21,7 @@ const Auth = ({ method, history }) => {
     };
     
     const submitForm = e => {
+        setIsFetching(true);
         e.preventDefault();
         axios
             .post(`${process.env.REACT_APP_BE_CONNECTION}/auth/${method}`, {...user})
@@ -29,6 +32,7 @@ const Auth = ({ method, history }) => {
                 history.push('/dashboard');
             })
             .catch(err => {
+                setIsFetching(false);
                 console.log(err);
             })
     };
@@ -72,7 +76,8 @@ const Auth = ({ method, history }) => {
                         onChange={changeConfirmPassword}
                     />
                 )}
-                <button>{method}!</button>
+                {isFetching ? <ReactLoading type="spin" color="#222222" height={50} width={50}/> : <button>{method}!</button>}
+                
             </form>
         </div>
     )
